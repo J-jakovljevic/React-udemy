@@ -1,9 +1,10 @@
 import './ExpenseItem.css';
+import ExpenseDate from './ExpenseDate';
 
-function ExpenseItem(props) { // props je objekat koji sadrzi sve vrednosti (vrednost za title, amount, date) koje dobijamo za svaki nas element  
+function ExpenseItem(props) {
   return (
     <div className="expense-item">
-      <div>{props.date.toISOString()}</div>
+      <ExpenseDate date={props.date}/>
       <div className="expense-item__description">
         <h2>{props.title}</h2>
         <div className="expense-item__price">${props.amount}</div>
