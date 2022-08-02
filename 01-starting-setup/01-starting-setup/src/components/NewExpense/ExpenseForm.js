@@ -2,20 +2,48 @@ import './ExpenseForm.css';
 import React, { useState } from 'react';
 
 const ExpenseForm = () => {
-    const [enteredTitle, setEnteredTitle] = useState('');  // po default-u input polje je prazno
-    const [enteredAmount, setEnteredAmount] = useState('');  // kada se slusa promena sa input polja, uvek ce biti string, bez obzira sto polje cuva brojeve ili datum
-    const [enteredDate, setEnteredDate] = useState('');
+//    const [enteredTitle, setEnteredTitle] = useState('');  // po default-u input polje je prazno
+ //   const [enteredAmount, setEnteredAmount] = useState('');  // kada se slusa promena sa input polja, uvek ce biti string, bez obzira sto polje cuva brojeve ili datum
+ //   const [enteredDate, setEnteredDate] = useState('');
+
+    const [userInput, setUserInput] = useState({
+        enteredTitle: '',
+        enteredAmount: '',
+        enteredDate: ''
+    });
 
     const titleChangeHandler = (event) => {
-        setEnteredTitle(event.target.value);
+       // setEnteredTitle(event.target.value);
+    /*   setUserInput({
+        ...userInput,       // ne smemo da izgubimo ostala dva polja
+        enteredTitle: event.target.value,
+       })    --> nije dobar nacin jer se kopiraju stare vrednosti za ostala dva polja */
+
+       setUserInput((prevState) => {  // f-ja koja garantuje da ce dobaviti apdejtovane vrednosti
+            return {...prevState, enteredTitle: event.target.value}
+       });
     };
     
     const amountChangeHandler = (event) => {
-        setEnteredAmount(event.target.value);
+        //setEnteredAmount(event.target.value);
+     /*   setUserInput({
+            ...userInput,
+            enteredAmount: event.target.value
+        })*/
+        setUserInput((prevState) => {  // f-ja koja garantuje da ce dobaviti apdejtovane vrednosti
+            return {...prevState, enteredAmount: event.target.value}
+       });
     };
 
     const dateChangeHandler = (event) => {
-        setEnteredDate(event.target.value);
+       //setEnteredDate(event.target.value);
+    /*   setUserInput({
+        ...userInput,
+        enteredDate: event.target.value
+    }) */
+    setUserInput((prevState) => {  // f-ja koja garantuje da ce dobaviti apdejtovane vrednosti
+        return {...prevState, enteredDate: event.target.value}
+   });
     };
 
     return <form>
