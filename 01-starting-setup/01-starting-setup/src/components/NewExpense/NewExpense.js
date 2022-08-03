@@ -1,7 +1,18 @@
 import "./NewExpense.css";
 import ExpenseForm from "./ExpenseForm";
+import React, { useState } from 'react';
 
 const NewExpense = (props) => {
+  const [isEditing, setIsEditing] = useState(false);  // false u smislu da forma ne treba da bude prikazana
+
+  const startEditingHandler = () => { // f-ja se poziva kada je dugme kliknuto
+    setIsEditing(true);
+  }
+
+  const stopEditingHandler = () => {
+    setIsEditing(false);
+  }
+
   const saveExpenseDataHandler = (enteredExpenseData) => {
     const expenseData = {
       ...enteredExpenseData,
@@ -9,11 +20,13 @@ const NewExpense = (props) => {
     };
     console.log(expenseData);
     props.onAddExpense(expenseData);
+    setIsEditing(false);
   };
 
   return (
     <div className="new-expense">
-      <ExpenseForm onSaveExpenseData = {saveExpenseDataHandler} />
+      {!isEditing && <button onClick={startEditingHandler}>Add new expense</button>} {/* dugme ce se  prikazati ako se ne edituje*/}
+      {isEditing && <ExpenseForm onSaveExpenseData = {saveExpenseDataHandler} onCancel={stopEditingHandler}/>}
     </div>
   );
 };
