@@ -23,7 +23,7 @@ const AddUser = (props) => {
     if(+eneteredAge < 1) {     // + pretvara string u number
         return;
     }
-    console.log(eneteredUsername, eneteredAge);
+    props.onAddUser(eneteredUsername, eneteredAge);
     setEnteredAge('');
     setEnteredUsername('');
   };
