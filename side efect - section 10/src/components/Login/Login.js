@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -11,12 +11,22 @@ const Login = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
+  useEffect(() => {                              // pomocu ove f-je se dugme za login disable-uje i enabluje direktno prilikom menjanja pass ili username-a
+    const identifier = setTimeout(() => {
+      console.log('Checking form validity!');
+    setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+  }, 500);                                     // ceka se da korisnik prestane sa kucanjem najmanje 500ms kako bi tek onda proverio da li uneti username postoji,
+                                              // a to se radi zbog optimizacije kako ne bi vrsio proveru posle svakog unetog karaktera 
+    return () => {                            // cleanup f-ja koja se pokrece svaki put pre izvrsenja ove gore f-je
+      console.log('CLEANUP');
+      clearTimeout(identifier);              // f-ja koja je ugradjena u browser
+    };    
+  },
+  [setFormIsValid, enteredEmail, enteredPassword]);  // u dependecies se dodaje ono sto ide u sideEffect f-ji
+                                                    // pokrenuce sideEffect f-ju ako je setFormIsValid true ili enteredEmail ili enteredPass promenjeni
+
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
-
-    setFormIsValid(
-      event.target.value.includes('@') && enteredPassword.trim().length > 6
-    );
   };
 
   const passwordChangeHandler = (event) => {
