@@ -34,8 +34,9 @@ function App() {
     <AuthContext.Provider     // To pass our value down to every component in our App, we wrap our Provider component around it (in this case, MainHeader).
       value={{
         isLoggedIn: isLoggedIn,
+        onLogout: logoutHandler
       }}>
-      <MainHeader onLogout={logoutHandler} />
+      <MainHeader />
       <main>
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <Home onLogout={logoutHandler} />}
