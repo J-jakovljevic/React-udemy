@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import Header from "./components/Layout/Header";
 import Meals from "./components/Meals/Meals";
 import Cart from './components/Cart/Cart';
+import CartProvider from './store/CartProvider';
 
 function App() {
   // radimo u App.js sa useState zato sto ovde renderujemo cart i tu zelimo da podesavamo njenu vidljivost
@@ -16,13 +17,13 @@ function App() {
   };
 
   return (
-    <Fragment>
+    <CartProvider>
      {cartIsShown && <Cart onClose={hideCartHandler} />}  {/* if cartIsShown = true -> prikazace Cart, u suprotnom nece */}
       <Header onShowCart={showCartHandler} />  {/* onShowCart je proizvoljno ime */}
       <main>
         <Meals />
       </main>
-    </Fragment>
+    </CartProvider>
   );
 }
 
