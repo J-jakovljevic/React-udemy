@@ -1,8 +1,21 @@
-import classes from './MealItem.module.css';
-import MealItemForm from './MealItemForm';
+import classes from "./MealItem.module.css";
+import MealItemForm from "./MealItemForm";
+import { useContext } from "react";
+import CartContex from '../../../store/cart-context';
 
 const MealItem = (props) => {
+  const cartCtx = useContext(CartContex);
+
   const price = `$${props.price.toFixed(2)}`; // ${} se koristi za injektovanje dinamickog sadrzaja
+
+  const addToCartHandler = amount => {
+    cartCtx.addItem({
+      id: props.id,
+      name: props.name,
+      amount: amount,
+      price: props.price,
+    });
+  };
 
   return (
     <li className={classes.meal}>
@@ -12,7 +25,7 @@ const MealItem = (props) => {
         <div className={classes.price}>{price}</div>
       </div>
       <div>
-        <MealItemForm />
+        <MealItemForm id={props.id} onAddToCart={addToCartHandler} />
       </div>
     </li>
   );

@@ -1,14 +1,23 @@
+import { useContext } from "react";
 import CartIcon from "../Cart/CartIcon";
 import classes from './HeaderCartButton.module.css';
+import CartContex from '../../store/cart-context';
 
 const HeaderCartButton = (props) => {
+  const cartCtx = useContext(CartContex);
+
+  // reduce pretvara niz elemenata u single value (npr ako dodamo 3 itema, nece napraviti niz itema nego ce pretvoriti u value)
+  const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
+    return curNumber + item.amount;          // curNumber - variable that will hold the updated score that you get from each iteration
+  }, 0);                                    // drugi argument je starting value
+
   return (
     <button className={classes.button} onClick={props.onClick}>   {/* onClick sa leve strane jednakosti je ugradjeno, a sa desne strane je nase */}
       <span className={classes.icon}>
         <CartIcon />
       </span>
       <span>Your Cart</span>
-      <span className={classes.badge}> 3</span>
+      <span className={classes.badge}>{numberOfCartItems}</span>
     </button>
   );
 };

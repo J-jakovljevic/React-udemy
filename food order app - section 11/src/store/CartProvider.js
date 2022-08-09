@@ -1,15 +1,42 @@
 // cilj ove komponente je da upravlja contexom i da ga obezbedi svim komponentama koje zele pristup contextu
 import CartContext from "./cart-context";
+import { useReducer } from "react";
+
+const defaultCartState = {
+    items: [],
+    totalAmount: 0
+};
+
+// moze van jer nece koristiti nista sto je unutar f-je ove komponente
+const cartReducer = (state, action) => {
+    if(action.type === 'ADD') {             // grupisemo iteme za isto meso zajedno 
+        const updatedItems = state.items.concat(action.item);      // dodaje new item u array ali za razliku od push() ne menja postojeci array vec kreira novi
+        const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount;
+
+        return {
+            items: updatedItems,
+            totalAmount: updatedTotalAmount
+        }
+    }
+    return defaultCartState;
+};
 
 const CartProvider = props => {
-    const addItemToCartHandler = (item) => {};
+    const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState);      // cartState = state snapshot, defaultCartState = initial state
 
-    const removeItemFromCartHandler = (id) => {};
+    // nalazi se ovde jer u CartProvider-u upravljamo podacima iz cart-a
+    const addItemToCartHandler = (item) => {
+        dispatchCartAction({type: 'ADD', item: item});      // type i item su proizvoljni nazivi
+    };
+
+    const removeItemFromCartHandler = (id) => {
+        dispatchCartAction({type: 'REMOVE', id: id});
+    };
 
     const cartContext = {
-        items: [],
-        totalAmount: 0,
-        addIdem: addItemToCartHandler,
+        items: cartState.items,
+        totalAmount: cartState.totalAmount,
+        addItem: addItemToCartHandler,
         removeItem: removeItemFromCartHandler
     }
        // we are using provider to wrap all components that needs access to the cart 
