@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect, useCallback } from 'react';
 import MoviesList from './components/MoviesList';
 import './App.css';
 
@@ -7,8 +6,8 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);     // initially we have no error
-
-  async function fetchMoviesHandler() {
+ 
+  const fetchMoviesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);                           // clearing previous errors
     try {
@@ -31,10 +30,16 @@ function App() {
         setMovies(transformedMovies);  
         setIsLoading(false);
     } catch (error) {
-      setError(error.message);        // message from line 19
+      setError(error.message);        // message from line 18
     }
     setIsLoading(false);
-  }  
+  }, []);
+
+  useEffect(() => {             // with useEffect we're setting page to load data when user loads page, not when click on button 
+    fetchMoviesHandler();
+  }, []);                      // with no dependecies [] this method will run only first time when page is loaded (with some bugs)
+                              // but we learned to list all dependecies which we have in function, but if we set [fetchMoviesHandler], 
+                              // we'll get into infinite loop -> so we'll use callBack()
 
   let content = <p>Found no movies.</p>;
 
