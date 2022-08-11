@@ -12,23 +12,26 @@ function App() {
     setIsLoading(true);
     setError(null);                           // clearing previous errors
     try {
-      const response = await fetch('https://react-http-17999.firebaseio.com/movies.json');
+      const response = await fetch('https://react-http-17999-default-rtdb.europe-west1.firebasedatabase.app/movies.json');
 
-      if(!response.ok) {                            // .ok gives signal if response was success
-        throw new Error('Something went wrong!');   // goes to catch block if has error
+      if(!response.ok) {                            
+        throw new Error('Something went wrong!');  
       }
 
       const data = await response.json();  
-  
-      const transformedMovies = data.results.map(movieData => {  // .map() - converting every object in the results array into a new object
-          return {
-            id: movieData.episode_id,                         // data we're working with in front : data we get back from json
-            title: movieData.title,
-            openingText: movieData.opening_crawl,
-            releaseDate: movieData.release_date
-          }
-        });
-        setMovies(transformedMovies);  
+
+      const loadedMovies = [];
+      
+      for(const key in data) {          // key is seen in console like random string
+        loadedMovies.push({
+          id: key,                    // data we're working with in front : data we get back from json
+          title: data[key].title,
+          openingText: data[key].openingText,
+          releaseDate: data[key].releaseDate
+        })
+      }
+
+        setMovies(loadedMovies);  
         setIsLoading(false);
     } catch (error) {
       setError(error.message);        // message from line 18
@@ -38,12 +41,20 @@ function App() {
 
   useEffect(() => {             // with useEffect we're setting page to load data when user loads page, not when click on button 
     fetchMoviesHandler();
-  }, []);                      // with no dependecies [] this method will run only first time when page is loaded (with some bugs)
+  }, [fetchMoviesHandler]);   // with no dependecies [] this method will run only first time when page is loaded (with some bugs)
                               // but we learned to list all dependecies which we have in function, but if we set [fetchMoviesHandler], 
                               // we'll get into infinite loop -> so we'll use callBack()
 
-  function addMovieHandler(movie) {
-    console.log(movie);
+  async function addMovieHandler(movie) {       // async is a second way to manage promises, a first one is .then()
+    const response = await fetch('https://react-http-17999-default-rtdb.europe-west1.firebasedatabase.app/movies.json', {    // fetch is used to fetch data and also to send data
+      method: 'POST',
+      body: JSON.stringify(movie),          // sending a post request will create a resource (body) and body needs json data (stringify is used to transform js object to json)
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });  
+    const data = await response.json();   // firebase sends back data in json format
+    console.log(data);
   }      
 
   let content = <p>Found no movies.</p>;
