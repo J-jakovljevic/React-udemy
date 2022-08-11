@@ -2,6 +2,7 @@ import { Fragment, Component } from "react";
 import classes from "./UserFinder.module.css";
 import Users from "./Users";
 import UsersContext from "../store/users-context";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 class UserFinder extends Component {
   static contextType = UsersContext;
@@ -14,21 +15,23 @@ class UserFinder extends Component {
     };
   }
 
-  componentDidMount() {         // runs only once, when component is rendered for the first time
+  componentDidMount() {
+    // runs only once, when component is rendered for the first time
     // Send http request...
     this.setState({ filteredUsers: this.context.users });
   }
 
-  componentDidUpdate(prevProps, prevState) {         // will be automaticaly called whenever this component is re-evaluated
-                                                    // (last snapshot, prev snapshot before update)
-    if(prevState.searchTerm !== this.state.searchTerm) {                     // if searchTerm changed
-        this.setState({
-            filteredUsers: this.context.users.filter((user) =>
-              user.name.includes(this.state.searchTerm)
-            ),
-          });
+  componentDidUpdate(prevProps, prevState) {
+    // will be automaticaly called whenever this component is re-evaluated
+    // (last snapshot, prev snapshot before update)
+    if (prevState.searchTerm !== this.state.searchTerm) {
+      // if searchTerm changed
+      this.setState({
+        filteredUsers: this.context.users.filter((user) =>
+          user.name.includes(this.state.searchTerm)
+        ),
+      });
     }
-   
   }
 
   searchChangeHandler(event) {
@@ -41,7 +44,9 @@ class UserFinder extends Component {
         <div className={classes.finder}>
           <input type="search" onChange={this.searchChangeHandler.bind(this)} />
         </div>
-        <Users users={this.state.filteredUsers} />
+        <ErrorBoundary>
+          <Users users={this.state.filteredUsers} />
+        </ErrorBoundary>
       </Fragment>
     );
   }

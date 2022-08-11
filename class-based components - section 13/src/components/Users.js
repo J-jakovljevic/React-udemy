@@ -11,6 +11,12 @@ class Users extends Component {
     };        
   }
 
+  componentDidUpdate() {
+    if(this.props.users.length === 0) {
+      throw new Error('No users provided!');
+    }
+  } 
+  
   toggleUsersHandler() {
     // this.state.showUsers = false;    // NOT!
     this.setState((curState) => {         // react merge this update with existing state (in constructor)
