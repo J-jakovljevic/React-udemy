@@ -20,6 +20,15 @@ const SimpleInput = (props) => {
     setEnteredName(event.target.value);
   };
 
+  const nameInputBlurHandler = event => {
+    setEnteredNameTouched(true);
+
+    if(enteredName.trim() === '') {
+      setEnteredNameIsValid(false);
+      return;
+    }
+  }
+
   const formSubmissionHandler = (event) => {
     event.preventDefault();      // if form is submitted on button, a http req. is sent to server serving this website
                                 // (we don't wanna to send it to server bcs we don't have server)
@@ -55,6 +64,7 @@ const SimpleInput = (props) => {
           type="text"
           id="name"
           onChange={nameInputChangeHandler}
+          onBlur={nameInputBlurHandler}    // will activate when this input loses focus
           value={enteredName}
         />
         {nameInputIsInvalid && <p className="error-text">Name must not be empty.</p>}
