@@ -7,6 +7,7 @@ const SimpleInput = (props) => {
   // we need to reset the entered input
   const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState("");
+  const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -15,6 +16,14 @@ const SimpleInput = (props) => {
   const formSubmissionHandler = (event) => {
     event.preventDefault();      // if form is submitted on button, a http req. is sent to server serving this website
                                 // (we don't wanna to send it to server bcs we don't have server)
+
+    if(enteredName.trim() === '') {
+      setEnteredNameIsValid(false);
+      return;
+    }
+
+    setEnteredNameIsValid(true);
+
     console.log(enteredName);
 
     const enteredValue = nameInputRef.current.value;
@@ -23,9 +32,12 @@ const SimpleInput = (props) => {
  //   nameInputRef.current.value = '';    => it works, but it's not ideal bcs we couldn't manipulate the dom, we should let react do that for us
     setEnteredName('');
   };
+
+  const nameInputClasses = enteredNameIsValid ? 'form-control' : 'form-control invalid';
+  
   return (
     <form onSubmit={formSubmissionHandler}>
-      <div className="form-control">
+      <div className={nameInputClasses}>
         <label htmlFor="name">Your Name</label>
         <input
           ref={nameInputRef}
@@ -34,6 +46,7 @@ const SimpleInput = (props) => {
           onChange={nameInputChangeHandler}
           value={enteredName}
         />
+        {!enteredNameIsValid && <p className="error-text">Name must not be empty.</p>}
       </div>
       <div className="form-actions">
         <button>Submit</button>
