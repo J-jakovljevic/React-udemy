@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const SimpleInput = (props) => {
   // we can get user input via refs or useState: refs are better when we need a value
@@ -7,7 +7,14 @@ const SimpleInput = (props) => {
   // we need to reset the entered input
   const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState("");
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
+  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
+  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+
+  useEffect(() => {
+    if(enteredNameIsValid) {
+      console.log('Name input is valid!');
+    }
+  }, [enteredNameIsValid]);
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -16,6 +23,8 @@ const SimpleInput = (props) => {
   const formSubmissionHandler = (event) => {
     event.preventDefault();      // if form is submitted on button, a http req. is sent to server serving this website
                                 // (we don't wanna to send it to server bcs we don't have server)
+
+    setEnteredNameTouched(true);    // when the form is submitted, all inputs are touched
 
     if(enteredName.trim() === '') {
       setEnteredNameIsValid(false);
@@ -33,7 +42,9 @@ const SimpleInput = (props) => {
     setEnteredName('');
   };
 
-  const nameInputClasses = enteredNameIsValid ? 'form-control' : 'form-control invalid';
+  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+
+  const nameInputClasses = nameInputIsInvalid ? 'form-control invalid' : 'form-control';
   
   return (
     <form onSubmit={formSubmissionHandler}>
@@ -46,7 +57,7 @@ const SimpleInput = (props) => {
           onChange={nameInputChangeHandler}
           value={enteredName}
         />
-        {!enteredNameIsValid && <p className="error-text">Name must not be empty.</p>}
+        {nameInputIsInvalid && <p className="error-text">Name must not be empty.</p>}
       </div>
       <div className="form-actions">
         <button>Submit</button>
