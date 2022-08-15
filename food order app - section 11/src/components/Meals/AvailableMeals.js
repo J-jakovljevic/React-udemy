@@ -20,9 +20,11 @@ const AvailableMeals = () => {
         */
    //  
    const [meals, setMeals] = useState([]);
+   const [isLoading, setIsLoading] = useState(false);
 
    useEffect(() => {
     const fetchMeals = async () => {
+      setIsLoading(true);
       const response = await fetch('https://react-http-17999-default-rtdb.europe-west1.firebasedatabase.app/meals.json').then();
       const responseData = await response.json();   
 
@@ -38,10 +40,19 @@ const AvailableMeals = () => {
       }
 
       setMeals(loadedMeals);
+      setIsLoading(false);
     };
 
     fetchMeals();
    }, []);
+
+   if(isLoading) {
+    return (
+    <section className={classes.MealsLoading}>
+      <p> Loading... </p>
+    </section>
+    );
+  }
 
   const mealList = meals.map((meal) => (
     <MealItem
