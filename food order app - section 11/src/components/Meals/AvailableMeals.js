@@ -21,11 +21,20 @@ const AvailableMeals = () => {
    //  
    const [meals, setMeals] = useState([]);
    const [isLoading, setIsLoading] = useState(false);
+   const [error, setError] = useState(null);
 
    useEffect(() => {
     const fetchMeals = async () => {
       setIsLoading(true);
+      setError(null);
+      
+      try {
       const response = await fetch('https://react-http-17999-default-rtdb.europe-west1.firebasedatabase.app/meals.json').then();
+      
+      if(!response.ok) {                            
+        throw new Error('Something went wrong!');  
+      }
+
       const responseData = await response.json();   
 
       const loadedMeals = [];   // responseData is object, but we want array
@@ -41,10 +50,24 @@ const AvailableMeals = () => {
 
       setMeals(loadedMeals);
       setIsLoading(false);
+
+    } catch (error) {
+      setIsLoading(false);
+      setError(error.message);
+    }
     };
+
 
     fetchMeals();
    }, []);
+
+   if(error) {
+    return (
+      <section className={classes.MealsError}>
+        <p>{error}</p>
+      </section> 
+    )
+  }
 
    if(isLoading) {
     return (
