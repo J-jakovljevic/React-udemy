@@ -1,36 +1,49 @@
 import classes from "./AvailableMeals.module.css";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
-
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
+import { useEffect, useState } from "react";
 
 const AvailableMeals = () => {
-  const mealList = DUMMY_MEALS.map((meal) => (
+ // useEffect(async () => {   
+ //    await fetch('https://react-http-17999-default-rtdb.europe-west1.firebasedatabase.app/meals.json').then();
+
+    // we can't use async function inside of useEffect -> we get error which says:
+    /* Effect callbacks are synchronous to prevent race conditions. Put the async function inside:
+        useEffect(() => {
+          async function fetchData() {
+            // You can await here
+            const response = await MyAPI.getData(someId);
+            // ...
+          }
+          fetchData();
+        }, [someId]); // Or [] if effect doesn't need props or state
+        */
+   //  
+   const [meals, setMeals] = useState([]);
+
+   useEffect(() => {
+    const fetchMeals = async () => {
+      const response = await fetch('https://react-http-17999-default-rtdb.europe-west1.firebasedatabase.app/meals.json').then();
+      const responseData = await response.json();   
+
+      const loadedMeals = [];   // responseData is object, but we want array
+
+      for (const key in responseData) {
+        loadedMeals.push({         // pushing new objects into empty array
+          id: key,                // data we're working with in front : data we get back from json
+          name: responseData[key].name,
+          description: responseData[key].description,
+          price: responseData[key].price
+        })
+      }
+
+      setMeals(loadedMeals);
+    };
+
+    fetchMeals();
+   }, []);
+
+  const mealList = meals.map((meal) => (
     <MealItem
       key={meal.id}
       id={meal.id}
