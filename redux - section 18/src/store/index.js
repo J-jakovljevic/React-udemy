@@ -1,40 +1,31 @@
-import { createStore } from 'redux';
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 const initialState = { counter: 0, showCounter: true };
 
-// counterReducer = (existing state with default value, action)
-const counterReducer = (state = initialState, action) => {
-    if (action.type === 'increment') {
-        return {                                    // returns new state object
-            counter: state.counter + 1,
-            showCounter: state.showCounter          // we set it to the value we currently have in our state bcs we don't want to change it 
-        };
-    }
-
-    if (action.type === 'increase') {
-        return {                                     
-            counter: state.counter + action.amount,      // amount has same name as in Counter.js
-            showCounter: state.showCounter 
-        };
-    }
-
-    if (action.type === 'decrement') {
-        return {                                    
-            counter: state.counter - 1,
-            showCounter: state.showCounter 
-        };
-    }
-
-    if(action.type === 'toggle') {
-        return {
-            showCounter: !state.showCounter,
-            counter: state.counter
+const counterSlice = createSlice({
+    name: 'counter',      // name of slice
+    initialState,        // short form of "initialState: initialState"
+    reducers: {          // object of all reducers this slice needs
+        increment(state) {       // we don't need to check if (action.type === 'increment') and we don't need param. action, so it doesn't exists here
+            state.counter++;    // with this we're trying to edit existing state, but redux toolkit doesn't allow that to us
+                               //  bcs he clones existing state, creates new object and override the state which we're editing
+        },
+        decrement(state) {
+            state.counter--;
+        },
+        increase(state, action) {   // we need action bcs we're managing with data
+            state.counter = state.counter + action.payload;
+        },
+        toggleCounter(state) {
+            state.showCounter = !state.showCounter;
         }
     }
+});
 
-    return state;       // unchanged state
-}
+const store = configureStore({
+    reducer: counterSlice.reducer
+});
 
-const store = createStore(counterReducer);
+export const counterActions = counterSlice.actions;
 
 export default store;

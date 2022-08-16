@@ -1,4 +1,5 @@
 import classes from './Counter.module.css';
+import { counterActions } from '../store';
 import { useSelector, useDispatch } from 'react-redux/es/exports';   // useStore gives access to the store, but useSelector allows us to 
                                                                              // automatically select a part of our state managed by the store 
                                                                      
@@ -12,20 +13,20 @@ const Counter = () => {
   // automatically updated and receive the latest counter whenever redux store change
 
   const incrementHandler = () => {
-    dispatch({ type: 'increment' });   // dispatch is executed on action object whose arg. are inside {}, linked with store (index.js)
-                                      // The only way to update the state is to call store.dispatch() and pass in an action object.
+    dispatch(counterActions.increment());   // it goes with () bcs when executed we get a full action object automatically created
+                                           // The only way to update the state is to call store.dispatch() and pass in an action object.
   };
 
   const increaseHandler = () => {
-    dispatch({ type: 'increase', amount: 5 });   // amount: 5 is a field called payload where we put additional information about what happened 
+    dispatch(counterActions.increase(10));  // redux will create actions object { type: SOME_ID, payload: 10 }    
   };
 
   const decrementHandler = () => {
-    dispatch({ type: 'decrement' });
+    dispatch(counterActions.decrement());
   };
 
   const toggleCounterHandler = () => {
-    dispatch({ type: 'toggle' });
+    dispatch(counterActions.toggleCounter());
   }; 
 
   return (
