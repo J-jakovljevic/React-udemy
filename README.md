@@ -27,7 +27,7 @@ dependency of useState & useCallback - functions are objects too! if something i
 
 How to know when to use ref or useState? - Refs are better when we need a value just once - when the form is submitted (bcs updating value with every keystroke is overkill); useState is better when we need the value on every keystroke for instant validation and if we need to reset the entered input
 
-Redux - better than contex; components are subscribed to central data and get the latest update from central data. They never directly manipulate the store data -> we use reducer function for that ( != useReducer() ). 
+Redux - better than contex; components are subscribed to central data and get the latest update from central data. They never directly manipulate the store data -> we use reducer function for that ( != useReducer() ). We should never change the existing state, instead we should override it by returning a new state object.
 
 Provider is used to connect app with redux store -> for that we need to provide that store to react app. Access to redux will have only components that are wrapped with <Provider>.
 
