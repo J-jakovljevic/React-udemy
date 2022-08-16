@@ -1,0 +1,38 @@
+# React-udemy
+In this repo are projects which are made while learning React from Udemy course.
+
+Refs give access to work with dom elements. We are using refs instead of using useState bcs we don't wanna update any state until the form is submitted bcs form has many text inputs.
+
+CSS Modules let you write styles in CSS files but consume them as JavaScript objects for additional processing and safety. CSS Modules are very popular because they automatically make class and animation names unique so you don't have to worry about selector name collisions.
+
+React context allows us to pass down and use (consume) data in whatever component we need in our React app without using props. You can think of React context as the equivalent of global variables for our React components. React context helps us avoid the problem of props drilling.
+Props drilling is a term to describe when you pass props down multiple levels to a nested component, through components that don't need it.  Contex isn't good to use if out data changes a lot. It's good for low-frequency updates like changing a theme, but for other thing it's better to use redux.
+
+export default react.memo(nameOfComponent) - react is checking new values of props from forwarded component and compare it with previous value. Just in case value is changed, component will be again executed, but in case parent component was changed and value of props of that component didn't, component won't be executed -> but that also has performance deficiencies
+
+primitive types = numbers, string, booleans, undefined, null; first 3 are going into stack bcs their values are known in advance
+reference types = objects, arrays; they are going into heap bcs their size isn't known in advace
+
+One reason to use useCallback is to prevent a component from re-rendering unless its props have changed. The useCallback and useMemo Hooks are similar. The main difference is that useMemo returns a memoized value and useCallback returns a memoized function.
+
+class-based component is an old way of creating components which are using render function, but today we're using functional components where we're using just return statement
+with class-based components, state is always an object
+with functional components, state can be anything
+
+fetch api - allows to send and receive http requests
+
+custom hooks are used to avoid code repetition - when we have same part of code in different places, we want to separate that code in different function for itself
+
+dependency of useState & useCallback - functions are objects too! if something is parameter of function, it doesn't need to be dependency
+
+How to know when to use ref or useState? - Refs are better when we need a value just once - when the form is submitted (bcs updating value with every keystroke is overkill); useState is better when we need the value on every keystroke for instant validation and if we need to reset the entered input
+
+Redux - better than contex; components are subscribed to central data and get the latest update from central data. They never directly manipulate the store data -> we use reducer function for that ( != useReducer() ). 
+
+Provider is used to connect app with redux store -> for that we need to provide that store to react app. Access to redux will have only components that are wrapped with <Provider>.
+
+useSelector() determines which piece of data we wanna extract from our store, parameters: (function receive the state managed by redux => returns the part of state which we wanna extract). Redux automatically sets up a subscription to the store for this component -> that means the component will be automatically updated and receive the latest value whenever redux store change. Import { useStore } gives access to the store, but { useSelector } allows us to automatically select a part of our state managed by the store. 
+
+useDispatch() returns a function which will dispatch an action against redux store. 
+
+class-based components with redux: useDispatch and useSelector are hooks and hooks are not allowed in class-based components, so we use { connect }, which allows class-based component to connect to redux. Connect also set up subscription automatically. 
