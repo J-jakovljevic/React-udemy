@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';   // useStore
                                                                      
 const Counter = () => {
   const dispatch = useDispatch();   // returns a function which will dispatch an action against redux store
-  const show = useSelector(state => state.showCounter);
-  const counter = useSelector(state => state.counter);     // useSelector() determines which piece of data we wanna extract from our store
+  const show = useSelector(state => state.counter.showCounter);   // explanation for this line in video 245. (10:30)
+  const counter = useSelector(state => state.counter.counter);     // useSelector() determines which piece of data we wanna extract from our store
   // parameters: (function receive the state managed by redux => returns the part of state which we wanna extract)
 
   // redux automatically set up a subscription to the store for this component -> that means the component will be
