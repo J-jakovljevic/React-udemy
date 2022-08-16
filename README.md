@@ -36,3 +36,10 @@ useSelector() determines which piece of data we wanna extract from our store, pa
 useDispatch() returns a function which will dispatch an action against redux store. 
 
 class-based components with redux: useDispatch and useSelector are hooks and hooks are not allowed in class-based components, so we use { connect }, which allows class-based component to connect to redux. Connect also set up subscription automatically. 
+
+ An action object can have other fields with additional information about what happened. By convention, we put that information in a field called payload. A typical action object might look like this:
+
+const addTodoAction = {
+  type: 'todos/todoAdded',
+  payload: 'Buy milk'
+} 
