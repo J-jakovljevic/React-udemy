@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';   // useStore
                                                                      
 const Counter = () => {
   const dispatch = useDispatch();   // returns a function which will dispatch an action against redux store
-  
+  const show = useSelector(state => state.showCounter);
   const counter = useSelector(state => state.counter);     // useSelector() determines which piece of data we wanna extract from our store
   // parameters: (function receive the state managed by redux => returns the part of state which we wanna extract)
 
@@ -24,12 +24,14 @@ const Counter = () => {
     dispatch({ type: 'decrement' });
   };
 
-  const toggleCounterHandler = () => {}; 
+  const toggleCounterHandler = () => {
+    dispatch({ type: 'toggle' });
+  }; 
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{counter}</div>
+      {show && <div className={classes.value}>{counter}</div>}
       <div>
         <button onClick={incrementHandler}>Increment</button>
         <button onClick={decrementHandler}>Decrement</button>
