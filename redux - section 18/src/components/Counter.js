@@ -13,6 +13,11 @@ const Counter = () => {
 
   const incrementHandler = () => {
     dispatch({ type: 'increment' });   // dispatch is executed on action object whose arg. are inside {}, linked with store (index.js)
+                                      // The only way to update the state is to call store.dispatch() and pass in an action object.
+  };
+
+  const increaseHandler = () => {
+    dispatch({ type: 'increase', amount: 5 });   // amount: 5 is a field called payload where we put additional information about what happened 
   };
 
   const decrementHandler = () => {
@@ -28,6 +33,7 @@ const Counter = () => {
       <div>
         <button onClick={incrementHandler}>Increment</button>
         <button onClick={decrementHandler}>Decrement</button>
+        <button onClick={increaseHandler}>Increase by 5</button>
       </div>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
     </main>

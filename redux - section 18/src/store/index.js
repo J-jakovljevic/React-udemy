@@ -8,6 +8,12 @@ const counterReducer = (state = { counter: 0 }, action) => {
         };
     }
 
+    if (action.type === 'increase') {
+        return {                                    // returns new state object
+            counter: state.counter + action.amount      // amount has same name as in Counter.js
+        };
+    }
+
     if (action.type === 'decrement') {
         return {                                    // returns new state object
             counter: state.counter - 1
