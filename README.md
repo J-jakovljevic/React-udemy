@@ -1,5 +1,5 @@
 # React-udemy
-In this repo are projects which are made while learning React from Udemy course.
+Here are notes which i catched while learning React.
 
 Refs give access to work with dom elements. We are using refs instead of using useState bcs we don't wanna update any state until the form is submitted bcs form has many text inputs.
 
