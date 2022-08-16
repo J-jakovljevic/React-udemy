@@ -1,9 +1,7 @@
-import { Component } from 'react';
 import classes from './Counter.module.css';
-import { useSelector, useDispatch, connect } from 'react-redux/es/exports';   // useStore gives access to the store, but useSelector allows us to 
+import { useSelector, useDispatch } from 'react-redux/es/exports';   // useStore gives access to the store, but useSelector allows us to 
                                                                              // automatically select a part of our state managed by the store 
-                                                                            // { connect } allows class-based component to connect to redux
- /*                                                                     
+                                                                     
 const Counter = () => {
   const dispatch = useDispatch();   // returns a function which will dispatch an action against redux store
   
@@ -35,7 +33,10 @@ const Counter = () => {
     </main>
   );
 };
-*/
+
+export default Counter;
+
+/*
 class Counter extends Component {
   incrementHandler() {
     // in counter comp. in his props we have prop named increment (in mapDispatchToProps)
@@ -54,7 +55,7 @@ class Counter extends Component {
     return (
       <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{this.props.counter}</div>   {/* this.props bcs of mapStateToProps */}
+      <div className={classes.value}>{this.props.counter}</div>   {/* this.props bcs of mapStateToProps 
       <div>
         <button onClick={this.incrementHandler.bind(this)}>Increment</button>
         <button onClick={this.decrementHandler.bind(this)}>Decrement</button>
@@ -82,3 +83,4 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);    // we execute the connect function, then it returns a new function which 
                                                                         //we execute -> to that returned function we pass counter
+*/
