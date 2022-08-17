@@ -12,7 +12,7 @@ const cartSlice = createSlice({
             const existingItem = state.items.find((item) => item.id === newItem.id);
 
             if(!existingItem) {
-                state.items.push({
+                state.items.push({      // not allowed with redux, but with redux toolkit it is
                     itemId: newItem.id,
                     price: newItem.price,
                     quantity: 1,
@@ -20,10 +20,12 @@ const cartSlice = createSlice({
                     name: newItem.title
                 })
             } else {
-                existingItem.quantity++;
+                existingItem.quantity++;       // not allowed with redux, but with redux toolkit it is
                 existingItem.totalPrice = existingItem.totalPrice + newItem.price;
             }
         },
         removeItemFromCart() {}
     }
 })
+
+export default cartSlice;
