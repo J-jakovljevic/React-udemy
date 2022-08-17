@@ -43,3 +43,5 @@ const addTodoAction = {
   type: 'todos/todoAdded',
   payload: 'Buy milk'
 } 
+
+Reducers must be side-effect free, synchrnous functions and without sending requests
