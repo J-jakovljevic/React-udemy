@@ -5,7 +5,7 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import Notification from "./components/UI/Notification";
-import { sendCartData } from './store/cart-slice';
+import { sendCartData, fetchCartData } from './store/cart-actions';
 
 let isInitial = true;
 
@@ -15,6 +15,10 @@ function App() {
   const cart = useSelector((state) => state.cart);
   const notification = useSelector((state) => state.ui.notification);
 
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
+
   // it's not allowed useEffect(aync() => {},[]) because when you mark a function with async it will implicitly return a promise.
   // So when it comes to running the clean up function returned from useEffect you'll also be implicitly returning a promise, which isn't allowed as this can cause race conditions.
   useEffect(() => {
@@ -22,7 +26,11 @@ function App() {
       isInitial = false;
       return;
     }
-    dispatch(sendCartData(cart));
+
+    if(cart.changed) {
+      dispatch(sendCartData(cart));
+    }
+    
   }, [cart, dispatch]); // method will reexecutes whenever cart changes
 
   return (
