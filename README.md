@@ -48,7 +48,7 @@ Reducers must be side-effect free, synchrnous functions and without sending requ
 
 It's not allowed useEffect(aync() => {},[]) because when you mark a function with async it will implicitly return a promise. So when it comes to running the clean up function returned from useEffect you'll also be implicitly returning a promise, which isn't allowed as this can cause race conditions.
 
-Routing: <br/>
+ <ins> Routing: </ins> <br/>
 NavLik is same as Link, but it has addition to set a css class on the element on screen which is active.
 
 Switch allows one ruter to be active in time (it won't render all products and product with link /p2 under it at same time).
