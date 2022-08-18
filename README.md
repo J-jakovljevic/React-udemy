@@ -61,6 +61,5 @@ Link is the element you could use to navigate through routes.
 Route is responsible to render some UI when a location matches the route’s path.
 <Route path="/example" render={Profile] />
 They are used separately. Link is dependent to Route's locations. But Route can be used without Link.
- 
- 
+
 useHistory hook allows us to change the browser history (like navigating us to new page); it gives us history object on which could be used push and replace methods. With push we can go back to previous page (with the back button) and with replace we can't.
