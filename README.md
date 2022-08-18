@@ -48,7 +48,7 @@ Reducers must be side-effect free, synchrnous functions and without sending requ
 
 It's not allowed useEffect(aync() => {},[]) because when you mark a function with async it will implicitly return a promise. So when it comes to running the clean up function returned from useEffect you'll also be implicitly returning a promise, which isn't allowed as this can cause race conditions.
 
-Routing: 
+Routing: <br/><br/>
 NavLik is same as Link, but it has addition to set a css class on the element on screen which is active.
 
 Switch allows one ruter to be active in time (it won't render all products and product with link /p2 under it at same time).
@@ -61,6 +61,6 @@ Link is the element you could use to navigate through routes.
 Route is responsible to render some UI when a location matches the route’s path.
 <Route path="/example" render={Profile] />
 They are used separately. Link is dependent to Route's locations. But Route can be used without Link.
-<br />
+<br/>
 <br/>
 UseHistory hook allows us to change the browser history (like navigating us to new page); it gives us history object on which could be used push and replace methods. With push we can go back to previous page (with the back button) and with replace we can't.
