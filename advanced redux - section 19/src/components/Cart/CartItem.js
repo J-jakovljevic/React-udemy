@@ -12,7 +12,7 @@ const CartItem = (props) => {
     dispatch(cartActions.removeItemFromCart(id));
   }
 
-  const addItemHandler = event => {
+  const addItemHandler = () => {
     dispatch(cartActions.addItemToCart({
       id,     // short version of "id: id"
       title,
