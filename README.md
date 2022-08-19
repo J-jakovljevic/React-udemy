@@ -61,6 +61,18 @@ Link is the element you could use to navigate through routes.
 Route is responsible to render some UI when a location matches the route’s path.
 <Route path="/example" render={Profile] />
 They are used separately. Link is dependent to Route's locations. But Route can be used without Link.
-<br/>
-<br/>
+<br/><br/>
 <ins>UseHistory hook</ins> allows us to change the browser history (like navigating us to new page); it gives us history object on which could be used push and replace methods. With <ins>push</ins> we can go back to previous page (with the back button) and with <ins>replace</ins> we can't.
+<br/><br/>
+<ins>useLocation hook</ins> gives us access to a location object which has info about the currently loaded page (URL).
+<br/><br/>
+<ins>Prompt component</ins> - automatically watch if we navigate away and if that happens, it'll show a warning before it allows us to leave page. 
+<Prompt when={isEntering} message={(location) => 'Are you sure you want to leave?'}/> prompt will be shown if the user changes url; location object contains info about the page we're trying to go and allow us to include that path in this message.
+<br/><br/>
+<ins>Query params</ins> allow for additional application state to be serialized into the URL that can't otherwise fit into the path of the URL (i.e. everything to the left of the ?).
+<br/><br/>
+<ins>useRouteMatch</ins> - if we change router path in app.js, we must to change it in nested roots too, but this hook helps us with that.
+<br/><br/>
+<ins>useLocation vs useRouteMatch:</ins>
+location.pathname gives the URL of the current page, while match.url gives the path we gave to the <Route> that is rendering the page. For example, while visiting /quotes/something, inside AllQuotes we will have /quotes/something as location.pathname, while match.url will be just /quotes because in the Route wrapping AllQuotes we have path='/quotes'.
+<br/><br/>
