@@ -55,10 +55,9 @@ It's not allowed useEffect(aync() => {},[]) because when you mark a function wit
 
 Put <ins>exact</ins> keyword to the route whose path is also included by another route's path ( /products has exact keyword bcs it's a part of /products/:productId)
 
-<ins>Link vs Route:</ins>
+<ins>Link vs Route:</ins><br/>
 Link is the element you could use to navigate through routes.
-<Link to="/example" />
-Route is responsible to render some UI when a location matches the route’s path.
+<Link to="/example" /><br/>Route is responsible to render some UI when a location matches the route’s path.
 <Route path="/example" render={Profile] />
 They are used separately. Link is dependent to Route's locations. But Route can be used without Link.
 <br/><br/>
@@ -73,6 +72,6 @@ They are used separately. Link is dependent to Route's locations. But Route can 
 <br/><br/>
 <ins>useRouteMatch</ins> - if we change router path in app.js, we must to change it in nested roots too, but this hook helps us with that.
 <br/><br/>
-<ins>useLocation vs useRouteMatch:</ins>
+<ins>useLocation vs useRouteMatch:</ins><br/>
 location.pathname gives the URL of the current page, while match.url gives the path we gave to the <Route> that is rendering the page. For example, while visiting /quotes/something, inside AllQuotes we will have /quotes/something as location.pathname, while match.url will be just /quotes because in the Route wrapping AllQuotes we have path='/quotes'.
 <br/><br/>
