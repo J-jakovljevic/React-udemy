@@ -21,6 +21,8 @@ with functional components, state can be anything
 
 <ins>fetch api</ins> - allows to send and receive http requests
 
+Mutations, subscriptions, timers, logging, and other side effects are not allowed inside the main body of a function component. Doing so will lead to confusing bugs. Instead, use useEffect. The function passed to <ins>useEffect</ins> will run after the render is committed to the screen.
+
 <ins>custom hooks</ins> are used to avoid code repetition - when we have same part of code in different places, we want to separate that code in different function for itself
 
 <ins>dependency of useState & useCallback</ins> - functions are objects too! if something is parameter of function, it doesn't need to be dependency
@@ -74,3 +76,4 @@ They are used separately. Link is dependent to Route's locations. But Route can 
 <ins>useLocation vs useRouteMatch:</ins><br/>
 location.pathname gives the URL of the current page, while match.url gives the path we gave to the Route that is rendering the page. For example, while visiting /quotes/something, inside AllQuotes we will have /quotes/something as location.pathname, while match.url will be just /quotes because in the Route wrapping AllQuotes we have path='/quotes'.
 <br/><br/>
+<ins>useParams</ins> - gets params from url
