@@ -22,12 +22,14 @@ const AuthForm = () => {
     // optional: add validation
 
     setIsLoading(true);
+    let url;
 
     if(isLogin) {
-      
+      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyALo34yPd4UvL70JncBzikj5cs12dgFSDc';
     } else {
-      fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyALo34yPd4UvL70JncBzikj5cs12dgFSDc',
-      {
+      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyALo34yPd4UvL70JncBzikj5cs12dgFSDc';
+    }
+      fetch(url, {
         method: 'POST',
         body: JSON.stringify({
           email: enteredEmail,
@@ -40,7 +42,7 @@ const AuthForm = () => {
       }).then((res) => {
         setIsLoading(false);
         if(res.ok) {
-          // ...
+          return res.json();
         } else {    // response data will hold some info
           return res.json().then((data) => {     // getting a data which we got with response, and response json also returns a promise
             let errorMessage = 'Authentication failed!';
@@ -48,14 +50,20 @@ const AuthForm = () => {
          //   if(data && data.error && data.error.message) {  // looking for data in inspect console
          //       errorMessage = data.error.message;      // we get error message from firebase automatically stored in data.error.message
         //    }
-            alert(errorMessage);
+            throw new Error(errorMessage);
           }); 
 
 
         }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        alert(err.message);
       });
     }
-  }
+  
 
   return (
     <section className={classes.auth}>
