@@ -10,4 +10,15 @@
     top: 30%;
     left: 25%;
     width: 50%;
+    transition: all 0.3s ease-out;  /* transition all properties for 300ms in speed where we start faster then we end */
+}
+
+.ModalOpen {
+    opacity: 1;
+    transform: translateY(0);   /* using position in the way we positioned it in html code (default position in this case) */
+}
+
+.ModalClosed {
+    opacity: 0;
+    transform: translateY(-100%);   /* move it up for 100% */
 }
