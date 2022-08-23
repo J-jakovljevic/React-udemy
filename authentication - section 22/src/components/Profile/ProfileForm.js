@@ -1,4 +1,5 @@
 import { useContext, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import AuthContext from '../../store/auth-context';
 import classes from './ProfileForm.module.css';
@@ -6,6 +7,7 @@ import classes from './ProfileForm.module.css';
 const ProfileForm = () => {
   const newPassInputRef = useRef();
   const authCtx = useContext(AuthContext);
+  const history = useHistory();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -27,7 +29,7 @@ const ProfileForm = () => {
       }
     }).then(res => {
       // pretpostavka da je uvek succeed kako bismo ustedeli vreme (nema error hendlinga)
-      
+      history.replace('/');
     })
   }
 
