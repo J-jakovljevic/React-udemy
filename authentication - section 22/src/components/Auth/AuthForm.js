@@ -62,7 +62,8 @@ const AuthForm = () => {
         }
       })
       .then((data) => {   // sign-in/sign up succeeded
-        authCtx.login(data.idToken);
+        const expirationTime = new Date(new Date().getTime() + (+data.expiresIn * 1000));   // + for converting in string, string expiresIn is property from firebase auth api, in seconds -> *1000 converting s in ms 
+        authCtx.login(data.idToken, expirationTime.toISOString());
         history.replace('/');   // redirecting user to home page
       })
       .catch((err) => {
