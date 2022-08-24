@@ -6,7 +6,7 @@ Here are notes which i catched while learning React.
 <ins>CSS Modules</ins> let you write styles in CSS files but consume them as JavaScript objects for additional processing and safety. CSS Modules are very popular because they automatically make class and animation names unique so you don't have to worry about selector name collisions.
 
 <ins>React context</ins> allows us to pass down and use (consume) data in whatever component we need in our React app without using props. You can think of React context as the equivalent of global variables for our React components. React context helps us avoid the problem of props drilling.
-<ins>Props drilling</ins> is a term to describe when you pass props down multiple levels to a nested component, through components that don't need it.  Contex isn't good to use if out data changes a lot. It's good for low-frequency updates like changing a theme, but for other thing it's better to use redux.
+<ins>Props drilling</ins> is a term to describe when you pass props down multiple levels to a nested component, through components that don't need it.  Context isn't good to use if out data changes a lot. It's good for low-frequency updates like changing a theme or authentication status, but for other thing it's better to use redux. Whenever sth change in context, it doesn't know in which component change happened, so every component that use context will be rebuilded and rendered. 
 
 export default react.<ins>memo</ins>(nameOfComponent) - react is checking new values of props from forwarded component and compare it with previous value. Just in case value is changed, component will be again executed, but in case parent component was changed and value of props of that component didn't, component won't be executed -> but that also has performance deficiencies
 
@@ -29,7 +29,7 @@ Mutations, subscriptions, timers, logging, and other side effects are not allowe
 
 <ins>How to know when to use ref or useState?</ins> - Refs are better when we need a value just once - when the form is submitted (bcs updating value with every keystroke is overkill); useState is better when we need the value on every keystroke for instant validation and if we need to reset the entered input
 
-<ins>Redux</ins> - better than contex; components are subscribed to central data and get the latest update from central data. They never directly manipulate the store data -> we use reducer function for that ( != useReducer() ). We should never change the existing state, instead we should override it by returning a new state object.
+<ins>Redux</ins> - better than context; components are subscribed to central data and get the latest update from central data. They never directly manipulate the store data -> we use reducer function for that ( != useReducer() ). We should never change the existing state, instead we should override it by returning a new state object.
 
 <ins>Provider</ins> is used to connect app with redux store -> for that we need to provide that store to react app. Access to redux will have only components that are wrapped with *Provider*.
 
