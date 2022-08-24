@@ -21,7 +21,7 @@ with functional components, state can be anything
 
 <ins>fetch api</ins> - allows to send and receive http requests
 
-Mutations, subscriptions, timers, logging, and other side effects are not allowed inside the main body of a function component. Doing so will lead to confusing bugs. Instead, use useEffect. The function passed to <ins>useEffect</ins> will run after the render is committed to the screen.
+Mutations, subscriptions, timers, logging, and other side effects are not allowed inside the main body of a function component. Doing so will lead to confusing bugs. Instead, use useEffect. The function passed to <ins>useEffect</ins> will run after the render is committed to the screen. UseEffect with no second argument will runs everytime after state updated or component mount. With [] as second parameter, it'll be executed when component mounts and renders just once at the beggining. 
 
 <ins>custom hooks</ins> are used to avoid code repetition - when we have same part of code in different places, we want to separate that code in different function for itself
 
@@ -31,7 +31,7 @@ Mutations, subscriptions, timers, logging, and other side effects are not allowe
 
 <ins>Redux</ins> - better than contex; components are subscribed to central data and get the latest update from central data. They never directly manipulate the store data -> we use reducer function for that ( != useReducer() ). We should never change the existing state, instead we should override it by returning a new state object.
 
-<ins>Provider</ins> is used to connect app with redux store -> for that we need to provide that store to react app. Access to redux will have only components that are wrapped with <Provider>.
+<ins>Provider</ins> is used to connect app with redux store -> for that we need to provide that store to react app. Access to redux will have only components that are wrapped with *Provider*.
 
 <ins>useSelector()</ins> determines which piece of data we wanna extract from our store, parameters: (function receive the state managed by redux => returns the part of state which we wanna extract). Redux automatically sets up a subscription to the store for this component -> that means the component will be automatically updated and receive the latest value whenever redux store change. Import { useStore } gives access to the store, but { useSelector } allows us to automatically select a part of our state managed by the store. 
 
