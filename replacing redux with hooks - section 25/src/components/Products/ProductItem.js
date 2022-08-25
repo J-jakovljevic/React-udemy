@@ -4,8 +4,12 @@ import { useStore } from '../../hooks-store/store';
 import Card from '../UI/Card';
 import './ProductItem.css';
 
-const ProductItem = props => {
-  const dispatch = useStore()[1];
+const ProductItem = React.memo(props => {  // .memo bcs if we click fav button on one item, all items rerender, instead of that one we clicked to add to fav
+                                // memo makes sure that these items don't rerender if their props didn't change => still isn't enough, we need to add parameter
+                                // to store.js in our custom hook
+  console.log('RERENDERING');
+
+  const dispatch = useStore(false)[1];    // false bcs we're not interesed in store changing
 
   const toggleFavHandler = () => {
    // toggleFav(props.id);
@@ -26,6 +30,6 @@ const ProductItem = props => {
       </div>
     </Card>
   );
-};
+});
 
 export default ProductItem;

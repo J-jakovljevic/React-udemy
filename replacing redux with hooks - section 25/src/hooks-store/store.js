@@ -5,7 +5,9 @@ let listeners = [];    // bcs we're going to have couple of places in the app wh
                        // and it's a list of functions which we're gonna call to update components that're using this hook  
 let actions = {};
 
-export const useStore = () => {                         // custom hook
+export const useStore = (shouldListen = true) => {      // custom hook - explanation for parameter is in ProductItem.js & if we have a component
+    // which uses store only to dispatch actions (like productItem), then we don't wanna to listen to changes inside of that productItem component.
+    // so the result'll be not rerendering items which aren't added to favorites
     const setState = useState(globalState)[1];         // we're interesed just in second argument
 
     const dispatch = (actionIdentifier, payload) => {       // payload can be string, number...
@@ -18,12 +20,16 @@ export const useStore = () => {                         // custom hook
     }
 
     useEffect(() => {
-        listeners.push(setState);       // every comp. will get it's own setState function
+        if(shouldListen) {
+            listeners.push(setState);       // every comp. will get it's own setState function
+        }
 
         return () => {                  // cleanup function 
-            listeners = listeners.filter(li => li !== setState);    // keeping all listeners that are != .... 
+            if(shouldListen) {
+              listeners = listeners.filter(li => li !== setState);    // keeping all listeners that are != .... 
+            }
         };
-    }, [setState]);     // useEffect'll run once bcs useState guarantee that setState never changes
+    }, [setState, shouldListen]);     // useEffect'll run once bcs useState guarantee that setState never changes
 
     return [globalState, dispatch];
 };
