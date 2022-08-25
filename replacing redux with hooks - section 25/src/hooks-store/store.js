@@ -1,4 +1,4 @@
-const { useState, useEffect } = require("react");
+import { useState, useEffect } from "react";
 
 let globalState = {};   // if we define it inside of custom hook, it would be for each component, but we need to share same data in all components
 let listeners = [];    // bcs we're going to have couple of places in the app where we'll be able to listen to changes in that state
@@ -21,8 +21,8 @@ export const useStore = () => {                         // custom hook
         listeners.push(setState);       // every comp. will get it's own setState function
 
         return () => {                  // cleanup function 
-            listeners = listeners.filter(li => li !== setState)    // keeping all listeners that are != .... 
-        }
+            listeners = listeners.filter(li => li !== setState);    // keeping all listeners that are != .... 
+        };
     }, [setState]);     // useEffect'll run once bcs useState guarantee that setState never changes
 
     return [globalState, dispatch];
@@ -31,7 +31,7 @@ export const useStore = () => {                         // custom hook
 // function for changing/seting actions
 export const initStore = (userActions, initialState) => {
     if(initialState) {
-        globalState = {...globalState, initialState};
+        globalState = {...globalState, ...initialState};   // global state = global state + initial state
     }
 
     actions = {...actions, ...userActions};
