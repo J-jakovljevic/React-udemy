@@ -8,12 +8,21 @@ function Ingredients() {
   const [userIngredients, setUserIngredients] = useState([]);
 
   const addIngredientHandler = ingredient => {
-    setUserIngredients(prevIngredients => [ 
-      ...prevIngredients,              // old array 
-      {id: Math.random().toString(),  // + new element
-      ...ingredient}
-    ])
-  }
+    fetch('https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json',
+    {
+      method: 'POST',
+      body: JSON.stringify(ingredient),
+      headers: { 'Content-Type': 'application/json'}  // informing firebase that we have incoming json data
+    }).then(response => {                     // this runs only when fetch request is done
+      return response.json();          // this'll extract the body and convert it from json to js; returns promise so 
+    }).then(responseData => {    // we need this; responseData is object from database
+      setUserIngredients(prevIngredients => [ 
+        ...prevIngredients,        // old array 
+        {id: responseData.name,   // + new element
+        ...ingredient}
+      ]);
+    });
+  };
 
   const removeIngredientHandler = (id) => {
     setUserIngredients(prevIngredients => {
