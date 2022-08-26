@@ -1,5 +1,6 @@
 import React from "react";
 import Todo from "../models/todo";
+import TodoItem from "./TodoItem";
 
 const Todos: React.FC<{items: Todo[]}>= (props) => {     // fc makes it clear that this here is a function that asks as a functional component
                                                          //fc type is generic and the value we're plugging in is our own props object where we 
@@ -9,7 +10,7 @@ const Todos: React.FC<{items: Todo[]}>= (props) => {     // fc makes it clear th
     return (
         <ul>
             {props.items.map((item) => (
-                <li key={item.id}>{item.text}</li>
+                <TodoItem key={item.id} text={item.text} />
             ))}
         </ul>
     )
