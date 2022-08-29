@@ -1,7 +1,7 @@
 # React-udemy
 Here are notes which i catched while learning React.
 
-<ins>Refs</ins> give access to work with dom elements. We are using refs instead of using useState bcs we don't wanna update any state until the form is submitted bcs form has many text inputs.
+<ins>Refs</ins> give access to work with dom elements. We are using refs instead of using useState bcs we don't wanna update any state until the form is submitted bcs form has many text inputs. 
 
 <ins>CSS Modules</ins> let you write styles in CSS files but consume them as JavaScript objects for additional processing and safety. CSS Modules are very popular because they automatically make class and animation names unique so you don't have to worry about selector name collisions.
 
@@ -28,7 +28,7 @@ Mutations, subscriptions, timers, logging, and other side effects are not allowe
 
 <ins>dependency of useState & useCallback</ins> - functions are objects too! if something is parameter of function, it doesn't need to be dependency
 
-<ins>How to know when to use ref or useState?</ins> - Refs are better when we need a value just once - when the form is submitted (bcs updating value with every keystroke is overkill); useState is better when we need the value on every keystroke for instant validation and if we need to reset the entered input
+<ins>How to know when to use ref or useState?</ins> - Refs are better when we need a value just once - when the form is submitted (bcs updating value with every keystroke is overkill); useState is better when we need the value on every keystroke for instant validation and if we need to reset the entered input. useState(null) = useState(undefined) = useState()
 
 <ins>Redux</ins> - better than context; components are subscribed to central data and get the latest update from central data. They never directly manipulate the store data -> we use reducer function for that ( != useReducer() ). We should never change the existing state, instead we should override it by returning a new state object.
 
