@@ -4,6 +4,7 @@ import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
 import Search from './Search';
 import ErrorModal from '../UI/ErrorModal';
+import useHttp from '../../hooks/http';
 
 const ingredientReducer = (currentIngredients, action) => {
   switch(action.type) {
@@ -18,24 +19,9 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 }
 
-const httpReducer = (curHttpState, action) => {
-  switch(action.type) {
-    case 'SEND':
-      return { loading: true, error: null };
-    case 'RESPONSE':
-      return {...curHttpState, loading: false};  // updating only a filed that has changes
-    case 'ERROR':
-      return { loading: false, error: action.errorMessage };   // errorMessage name is up to u
-    case 'CLEAR':
-      return {...curHttpState, error: null};
-    default:
-      throw new Error('Should not be reached');
-  }
-}
-
 function Ingredients() {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);    // initially currentIngredients is []; dispatch is random name for function which'll go through actions
-  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: false });
+  const { isLoading, error, data, sendRequest } = useHttp();
   //  const [userIngredients, setUserIngredients] = useState([]);
  // const [isLoading, setIsLoading] = useState(false);
  // const [error, setError] = useState(); // empty useState is same as null or undefined
@@ -50,7 +36,7 @@ function Ingredients() {
   // whenever this component rebuilds, this function'll be recreated again and again -> solution: useCallback
   const addIngredientHandler = useCallback(ingredient => {
   //  setIsLoading(true);
-  dispatchHttp({type: 'SEND'});
+ /* dispatchHttp({type: 'SEND'});
     fetch('https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json',
     {
       method: 'POST',
@@ -65,34 +51,18 @@ function Ingredients() {
         ...prevIngredients,        // old array 
         {id: responseData.name,   // + new element
         ...ingredient}
-      ]);*/
+      ]);
       dispatch({type: 'ADD', ingredient: {id: responseData.name, ...ingredient}});
-    });
+    }); */
   }, []);    // ingredient isn't dependency bcs it's local(internal), dispatchHttp is managed by react and it won't change
 
   const removeIngredientHandler = useCallback((id) => {
- //   setIsLoading(true);
-    dispatchHttp({type: 'SEND'});
-    fetch(`https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients/${id}.json`,
-    {
-      method: 'DELETE'
-    }).then(response => {
-    //  setIsLoading(false);  // we got response -> we're not loading anymore
-        dispatchHttp({type: 'RESPONSE'});
-   /*   setUserIngredients(prevIngredients => {
-        return prevIngredients.filter(ingredient => ingredient.id !== id);
-      })*/
-      dispatch({type: 'DELETE', id: id});   // id on the right side is from removeIngredientHandler
-    }).catch(error => {
-  //    setError('Something went wrong!');
-   //   setIsLoading(false);
-        dispatchHttp({type: 'ERROR', errorMessage: 'Something went wrong!'});
-    })
-  }, []);
+    sendRequest(`https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients/${id}.json`, 'DELETE');
+  }, [sendRequest]);
 
   const clearError = useCallback(() => {
     //setError(null);
-    dispatchHttp({type: 'CLEAR'});
+  //  dispatchHttp({type: 'CLEAR'});
   }, []);
 
   const ingredientList = useMemo(() => {
@@ -103,9 +73,9 @@ function Ingredients() {
 
   return (
     <div className="App">
-      {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
+      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
 
-      <IngredientForm onAddIngredient={addIngredientHandler} loading={httpState.loading}/>
+      <IngredientForm onAddIngredient={addIngredientHandler} loading={isLoading}/>
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler}/>
