@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useCallback } from 'react';
+import React, { useState, useReducer, useCallback, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -47,7 +47,8 @@ function Ingredients() {
    dispatch({type: 'SET', ingredients: filteredIngredients});
   }, []);   // we have no dependency bcs setUserIngredients is special dependency bcs of useState
 
-  const addIngredientHandler = ingredient => {
+  // whenever this component rebuilds, this function'll be recreated again and again -> solution: useCallback
+  const addIngredientHandler = useCallback(ingredient => {
   //  setIsLoading(true);
   dispatchHttp({type: 'SEND'});
     fetch('https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json',
@@ -67,9 +68,9 @@ function Ingredients() {
       ]);*/
       dispatch({type: 'ADD', ingredient: {id: responseData.name, ...ingredient}});
     });
-  };
+  }, []);    // ingredient isn't dependency bcs it's local(internal), dispatchHttp is managed by react and it won't change
 
-  const removeIngredientHandler = (id) => {
+  const removeIngredientHandler = useCallback((id) => {
  //   setIsLoading(true);
     dispatchHttp({type: 'SEND'});
     fetch(`https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients/${id}.json`,
@@ -87,12 +88,18 @@ function Ingredients() {
    //   setIsLoading(false);
         dispatchHttp({type: 'ERROR', errorMessage: 'Something went wrong!'});
     })
-  }
+  }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     //setError(null);
     dispatchHttp({type: 'CLEAR'});
-  }
+  }, []);
+
+  const ingredientList = useMemo(() => {
+    return (
+      <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler}/>
+    )
+  }, [userIngredients, removeIngredientHandler]);
 
   return (
     <div className="App">
@@ -102,8 +109,7 @@ function Ingredients() {
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler}/>
-        <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler}/>
-        {/* Need to add list here! */}
+        {ingredientList}
       </section>
     </div>
   );

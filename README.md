@@ -13,7 +13,7 @@ export default react.<ins>memo</ins>(nameOfComponent) - react is checking new va
 <ins>primitive types</ins> = numbers, string, booleans, undefined, null; first 3 are going into stack bcs their values are known in advance
 <ins>reference types</ins> = objects, arrays; they are going into heap bcs their size isn't known in advace
 
-One reason to use <ins>useCallback</ins> is to prevent a component from re-rendering unless its props have changed. The <ins>useCallback</ins> and useMemo Hooks are similar. The main difference is that <ins>useMemo</ins> returns a memoized value and useCallback returns a memoized function.
+One reason to use <ins>useCallback</ins> is to prevent a component from re-rendering unless its props have changed. The <ins>useCallback</ins> and useMemo Hooks are similar. The main difference is that <ins>useMemo</ins> returns a memoized value and useCallback returns a memoized function. UseMemo saves a value which has saved so that the value isn't recreated and useCallback saves a function that doesn't change so that no new function is generated.
 
 <ins>class-based component</ins> is an old way of creating components which are using render function, but today we're using functional components where we're using just return statement
 with class-based components, state is always an object
