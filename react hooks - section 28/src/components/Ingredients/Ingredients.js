@@ -23,6 +23,10 @@ function Ingredients() {
     })
   }, []);
 
+  const filteredIngredientsHandler = filteredIngredients => {
+    setUserIngredients(filteredIngredients);
+  }
+
   const addIngredientHandler = ingredient => {
     fetch('https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json',
     {
@@ -51,7 +55,7 @@ function Ingredients() {
       <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
+        <Search onLoadIngredients={filteredIngredientsHandler}/>
         <IngredientList ingredients={userIngredients} onRemoveItem={removeIngredientHandler}/>
         {/* Need to add list here! */}
       </section>

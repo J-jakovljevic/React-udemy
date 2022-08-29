@@ -78,3 +78,5 @@ They are used separately. Link is dependent to Route's locations. But Route can 
 location.pathname gives the URL of the current page, while match.url gives the path we gave to the Route that is rendering the page. For example, while visiting /quotes/something, inside AllQuotes we will have /quotes/something as location.pathname, while match.url will be just /quotes because in the Route wrapping AllQuotes we have path='/quotes'.
 <br/><br/>
 <ins>useParams</ins> - gets params from url
+<br/><br/>
+<ins>Object destructuring</ins> -> {name of the keys in that object which we want to extract, in which we want to store and separate variables } = object we want to destructor or from which we want to extract:    const { onLoadIngredients } = props;
