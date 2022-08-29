@@ -8,7 +8,7 @@ function Ingredients() {
   const [userIngredients, setUserIngredients] = useState([]);
 
   // we don't need useEffect bcs we already fetching ingredients in search component
-  
+
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
     setUserIngredients(filteredIngredients);
   }, []);   // we have no dependency bcs setUserIngredients is special dependency bcs of useState
@@ -31,8 +31,13 @@ function Ingredients() {
   };
 
   const removeIngredientHandler = (id) => {
-    setUserIngredients(prevIngredients => {
-      return prevIngredients.filter(ingredient => ingredient.id !== id);
+    fetch(`https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients/${id}.json`,
+    {
+      method: 'DELETE'
+    }).then(response => {
+      setUserIngredients(prevIngredients => {
+        return prevIngredients.filter(ingredient => ingredient.id !== id);
+      })
     })
   }
 
