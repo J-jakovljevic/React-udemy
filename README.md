@@ -24,7 +24,7 @@ with functional components, state can be anything
 useEffect is used to manage side effects (npr. http request) - when we have some logic that affect our app; useEffect runs whenever component where it's created got rendered.
 Mutations, subscriptions, timers, logging, and other side effects are not allowed inside the main body of a function component. Doing so will lead to confusing bugs. Instead, use useEffect. The function passed to <ins>useEffect</ins> will run after the render is committed to the screen. UseEffect with no second argument will runs everytime after state updated or component mount. With [] as second parameter, it'll be executed when component mounts and renders just once at the beggining. 
 
-<ins>custom hooks</ins> are used to avoid code repetition - when we have same part of code in different places, we want to separate that code in different function for itself
+<ins>custom hooks</ins> are used to avoid code repetition - when we have same part of code in different places, we want to separate that code in different function for itself. Components that use custom hook don't share a same data.
 
 <ins>dependency of useState & useCallback</ins> - functions are objects too! if something is parameter of function, it doesn't need to be dependency
 
