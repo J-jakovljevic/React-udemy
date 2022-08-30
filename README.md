@@ -56,10 +56,11 @@ It's not allowed useEffect(aync() => {},[]) because when you mark a function wit
 
 <ins>Switch</ins> allows one ruter to be active in time (it won't render all products and product with link /p2 under it at same time).
 
-Put <ins>exact</ins> keyword to the route whose path is also included by another route's path ( /products has exact keyword bcs it's a part of /products/:productId)
+Put <ins>exact</ins> keyword to the route whose path is also included by another route's path ( /products has exact keyword bcs it's a part of /products/:productId). It tells react that for route '/' shouldn't check if the path begins with this path, but if the full path matches this path.
 
-<ins>Link vs Route:</ins><br/>
-*Link to="/example"*, Link is the element you could use to navigate through routes.
+<ins>Link vs href vs Route:</ins><br/>
+*href="/example"* sends a new request to the server
+*Link to="/example"*, Link is the element you could use to navigate through routes, prevents a browser of sending a request to the server and parse the url we want.
 *Route path="/example" render={Profile]*, Route is responsible to render some UI when a location matches the route’s path.
 They are used separately. Link is dependent to Route's locations. But Route can be used without Link.
 <br/><br/>
