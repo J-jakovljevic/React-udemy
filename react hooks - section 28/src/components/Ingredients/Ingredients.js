@@ -21,12 +21,7 @@ const ingredientReducer = (currentIngredients, action) => {
 
 function Ingredients() {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []); // initially currentIngredients is []; dispatch is random name for function which'll go through actions
-  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifier } = useHttp();
-  //  const [userIngredients, setUserIngredients] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(); // empty useState is same as null or undefined
-
-  // we don't need useEffect bcs we already fetching ingredients in search component
+  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifier, clear } = useHttp();
 
   useEffect(() => {
     if(!isLoading && !error && reqIdentifier === 'REMOVE_INGREDIENT') {
@@ -38,9 +33,8 @@ function Ingredients() {
   }, [data, reqExtra, reqIdentifier, isLoading, error]);
 
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
-    // setUserIngredients(filteredIngredients);
     dispatch({ type: "SET", ingredients: filteredIngredients });
-  }, []); // we have no dependency bcs setUserIngredients is special dependency bcs of useState
+  }, []); 
 
   // whenever this component rebuilds, this function'll be recreated again and again -> solution: useCallback
   const addIngredientHandler = useCallback((ingredient) => {
@@ -48,28 +42,10 @@ function Ingredients() {
       "https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json",
       "POST",
       JSON.stringify(ingredient),
+      ingredient,
       'ADD_INGREDIENT'
     );
-    //  setIsLoading(true);
-    /* dispatchHttp({type: 'SEND'});
-    fetch('https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json',
-    {
-      method: 'POST',
-      body: JSON.stringify(ingredient),
-      headers: { 'Content-Type': 'application/json'}  // informing firebase that we have incoming json data
-    }).then(response => {                     // this runs only when fetch request is done
-   //  setIsLoading(false);    // we got our response
-       dispatchHttp({type: 'RESPONSE'});
-      return response.json();          // this'll extract the body and convert it from json to js; returns promise so 
-    }).then(responseData => {    // we need this; responseData is object from database
-   /*   setUserIngredients(prevIngredients => [ 
-        ...prevIngredients,        // old array 
-        {id: responseData.name,   // + new element
-        ...ingredient}
-      ]);
-      dispatch({type: 'ADD', ingredient: {id: responseData.name, ...ingredient}});
-    }); */
-  }, []); // ingredient isn't dependency bcs it's local(internal), dispatchHttp is managed by react and it won't change
+  }, [sendRequest]); 
 
   const removeIngredientHandler = useCallback(
     (id) => {
@@ -84,11 +60,6 @@ function Ingredients() {
     [sendRequest]
   );
 
-  const clearError = useCallback(() => {
-    //setError(null);
-    //  dispatchHttp({type: 'CLEAR'});
-  }, []);
-
   const ingredientList = useMemo(() => {
     return (
       <IngredientList
@@ -100,7 +71,7 @@ function Ingredients() {
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
 
       <IngredientForm
         onAddIngredient={addIngredientHandler}

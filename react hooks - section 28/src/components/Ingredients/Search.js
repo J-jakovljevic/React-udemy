@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useHttp from '../../hooks/http';
 
 import Card from '../UI/Card';
+import ErrorModal from '../UI/ErrorModal';
 import './Search.css';
 
 const Search = React.memo(props => {
@@ -8,37 +10,48 @@ const Search = React.memo(props => {
                                       // here, we know that onLoadIngredients exists as a key in props (bcs of line 24)
   const [enteredFilter, setEnteredFilter] = useState('');
   const inputRef = useRef();
+  const { isLoading, data, error, sendRequest, clear } = useHttp();
 
-  useEffect(() => {
-  const timer = setTimeout(() => {
-    if(enteredFilter === inputRef.current.value) {
-      const query = enteredFilter.length === 0 ? '' : `?orderBy="title"&equalTo="${enteredFilter}"`;   // title is the filed from which we want to filter 
-      fetch('https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json' + query)
-      .then(response => response.json())
-      .then(responseData => {
-        const loadedIngredients = [];
-        for(const key in responseData) {
-          loadedIngredients.push({
-            id: key,  // random string we have in firebase
-            title: responseData[key].title, // responseData is nested for every key
-            amount: responseData[key].amount
-          })
+    // if we want useEffect to have a return value, it's always a function
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        if (enteredFilter === inputRef.current.value) {
+          const query =
+            enteredFilter.length === 0
+              ? ''
+              : `?orderBy="title"&equalTo="${enteredFilter}"`;
+          sendRequest(
+            'https://react-hooks-update-3b031-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json' + query,
+            'GET'
+          );
         }
-         onLoadIngredients(loadedIngredients);   // we expect onLoadIngredients() in Ingredients.js
-      })
-    }
-  }, 500);
-  return () => {    // if we want useEffect to have a return value, it's always a function
-      // it's a clean up function: we clean up the old effect, run a new one on the second keystroke, we clean up a previous effect and run a new on
-      clearTimeout(timer);
-    };
-  }, [enteredFilter, onLoadIngredients, inputRef]);  // useEffect runs everytime this fields change
+      }, 500);
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [enteredFilter, inputRef, sendRequest]);
+  
+    useEffect(() => {   // handling response
+      if (!isLoading && !error && data) {
+        const loadedIngredients = []; //then we got some response
+        for (const key in data) {
+          loadedIngredients.push({
+            id: key,
+            title: data[key].title,
+            amount: data[key].amount
+          });
+        }
+        onLoadIngredients(loadedIngredients);
+      }
+    }, [data, isLoading, error, onLoadIngredients]);
 
   return (
     <section className="search">
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
       <Card>
         <div className="search-input">
           <label>Filter by Title</label>
+          {isLoading && <span>Loading...</span>}
           <input ref={inputRef} type="text" value={enteredFilter} onChange={event => setEnteredFilter(event.target.value)} />
         </div>
       </Card>
